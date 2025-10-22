@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 Happy Birthday Bhai! 🎂</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Intro Screen */
+        #introScreen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .start-btn {
+            padding: 20px 40px;
+            font-size: 28px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: pulse 1.5s infinite;
+            transition: transform 0.3s;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Main Content */
+        #mainContent {
+            min-height: 100vh;
+            padding: 50px 20px;
+        }
+
+        h1 {
+            font-size: 4rem;
+            color: #fff;
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+            margin: 30px 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-30px); }
+            60% { transform: translateY(-15px); }
+        }
+
+        .funny-text {
+            font-size: 1.5rem;
+            color: #fff;
+            background: rgba(0,0,0,0.5);
+            padding: 20px;
+            border-radius: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            line-height: 1.8;
+        }
+
+        .cake-container {
+            margin: 50px auto;
+            position: relative;
+        }
+
+        .cake {
+            font-size: 150px;
+            animation: shake 0.5s infinite;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .cake:hover {
+            transform: scale(1.2);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        .video-container {
+            margin: 40px auto;
+            max-width: 600px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+        }
+
+        .meme-img {
+            max-width: 400px;
+            border-radius: 20px;
+            margin: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: rotate 3s infinite;
+        }
+
+        @keyframes rotate {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .balloon {
+            position: fixed;
+            bottom: -100px;
+            font-size: 50px;
+            animation: floatUp 6s ease-in infinite;
+            z-index: 5;
+        }
+
+        @keyframes floatUp {
+            0% {
+                bottom: -100px;
+                opacity: 1;
+            }
+            100% {
+                bottom: 120vh;
+                opacity: 0;
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f00;
+            position: fixed;
+            top: -10px;
+            z-index: 1;
+            animation: fall 4s linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .funny-btn {
+            padding: 15px 30px;
+            font-size: 20px;
+            margin: 10px;
+            background: #f9ca24;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        .funny-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        .age-calculator {
+            background: rgba(255,255,255,0.9);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px auto;
+            max-width: 500px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .age-result {
+            font-size: 2rem;
+            color: #ff6b6b;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .funny-text { font-size: 1.2rem; }
+            .cake { font-size: 100px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Intro Screen -->
+    <div id="introScreen">
+        <h1 style="animation: none;">🎂 Are You Ready? 🎂</h1>
+        <p style="font-size: 24px; color: white; margin: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+            Ek bahut hi khaas surprise hai tere liye!
+        </p>
+        <button class="start-btn" onclick="startCelebration()">🎉 Let's Party! 🎉</button>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="hidden">
+        <div class="container">
+            <h1>🎉 HAPPY BIRTHDAY YAAR! 🎂</h1>
+            
+            <div class="funny-text">
+                <p>🎈 Arre bhai! Finally tu bhi ek saal aur budha ho gaya! 😂</p>
+                <p>🎂 Par tension mat le, abhi bhi bachpana intact hai tera! 😜</p>
+                <p>🎊 Toh chal, aaj party hard kar aur sab bhool ja! 🕺</p>
+            </div>
+
+            <div class="cake-container">
+                <div class="cake" onclick="blowCandles()">🎂</div>
+                <p style="color: white; font-size: 20px;">↑ Cake pe click kar aur mombatti phuk! 🕯️</p>
+            </div>
+
+            <!-- Age Calculator (Funny) -->
+            <div class="age-calculator">
+                <h2>⏰ Tu Kitna Budha Ho Gaya? 😅</h2>
+                <p>Apna birthday year daal:</p>
+                <input type="number" id="birthYear" placeholder="Jaise: 1998" 
+                       style="padding: 10px; font-size: 18px; border-radius: 10px; border: 2px solid #ff6b6b; margin: 10px;">
+                <button class="funny-btn" onclick="calculateAge()">Calculate Kar! 📊</button>
+                <div id="ageResult" class="age-result"></div>
+            </div>
+
+            <!-- Funny Buttons -->
+            <div style="margin: 40px 0;">
+                <button class="funny-btn" onclick="playBirthdaySong()">🎵 Birthday Song Suna! 🎶</button>
+                <button class="funny-btn" onclick="showFunnyVideo()">😂 Funny Video Dekh! 🎬</button>
+                <button class="funny-btn" onclick="makeItRain()">💸 Paisa Barsa De! 💰</button>
+            </div>
+
+            <!-- Audio Player (Hidden Initially) -->
+            <audio id="birthdaySong" loop>
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            </audio>
+
+            <!-- Video Container -->
+            <div id="videoContainer" class="video-container hidden">
+                <iframe width="100%" height="315" 
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
+                <p style="color: white; padding: 10px; background: rgba(0,0,0,0.7);">
+                    😂 Surprise! Rick Roll ho gaya tu! 🎉
+                </p>
+            </div>
+
+            <!-- Funny Memes -->
+            <div style="margin: 50px 0;">
+                <h2 style="color: white;">📸 Birthday Memes Special! 😆</h2>
+                <p style="color: white; font-size: 18px;">Ye dekh aur has!</p>
+            </div>
+
+            <!-- Final Message -->
+            <div class="funny-text" style="margin-top: 50px;">
+                <h2>💖 Dil Se Bhai! 💖</h2>
+                <p>Mazak to chalti rahegi, par sach me...</p>
+                <p>🎈 Tu meri zindagi ka sabse mast dost hai! 🎈</p>
+                <p>🎂 Bahut saare khushi aur success mile tujhe! 🎂</p>
+                <p>🎊 Aur haan... Party tu de raha hai! 😎🍕🍰</p>
+                <p><strong>HAPPY BIRTHDAY! 🎉🎉🎉</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Start Celebration
+        function startCelebration() {
+            document.getElementById('introScreen').classList.add('hidden');
+            document.getElementById('mainContent').classList.remove('hidden');
+            createBalloons();
+            createConfetti();
+        }
+
+        // Blow Candles Effect
+        function blowCandles() {
+            const cake = document.querySelector('.cake');
+            cake.innerHTML = '🎁';
+            setTimeout(() => {
+                alert('🎉 Wish Puri Hogi Teri! Bas mere saath party zaroor karna! 😄');
+                cake.innerHTML = '🎂';
+            }, 2000);
+        }
+
+        // Play Birthday Song
+        function playBirthdaySong() {
+            const audio = document.getElementById('birthdaySong');
+            if (audio.paused) {
+                audio.play();
+                alert('🎵 Birthday song shuru! Ab naach! 🕺💃');
+            } else {
+                audio.pause();
+                alert('🛑 Song band kar diya! Itna bhi boring mat ban! 😂');
+            }
+        }
+
+        // Show Funny Video (Rick Roll)
+        function showFunnyVideo() {
+            const videoContainer = document.getElementById('videoContainer');
+            videoContainer.classList.remove('hidden');
+            videoContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Money Rain Effect
+        function makeItRain() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    createMoneyEmoji();
+                }, i * 100);
+            }
+            alert('💰 Paisa to barsa diya... ab asli wala tu de! 😂💸');
+        }
+
+        function createMoneyEmoji() {
+            const money = document.createElement('div');
+            money.innerHTML = '💵';
+            money.style.position = 'fixed';
+            money.style.left = Math.random() * 100 + '%';
+            money.style.top = '-50px';
+            money.style.fontSize = '40px';
+            money.style.zIndex = '1000';
+            money.style.animation = 'fall 3s linear';
+            document.body.appendChild(money);
+            setTimeout(() => money.remove(), 3000);
+        }
+
+        // Calculate Age (Funny Way)
+        function calculateAge() {
+            const birthYear = document.getElementById('birthYear').value;
+            const currentYear = new Date().getFullYear();
+            const age = currentYear - birthYear;
+            
+            const resultDiv = document.getElementById('ageResult');
+            
+            if (!birthYear) {
+                resultDiv.innerHTML = '😅 Bhai year to daal pehle!';
+            } else if (age < 0) {
+                resultDiv.innerHTML = '🤔 Future se aaya hai kya?';
+            } else if (age < 18) {
+                resultDiv.innerHTML = `🎈 ${age} saal! Abhi bachcha hai tu! 👶`;
+            } else if (age < 25) {
+                resultDiv.innerHTML = `🎉 ${age} saal! Prime time hai bhai! 🔥`;
+            } else if (age < 40) {
+                resultDiv.innerHTML = `😎 ${age} saal! Experienced ho gaya! 👔`;
+            } else {
+                resultDiv.innerHTML = `🎂 ${age} saal! Uncle ji! 👴 (Mazak hai bhai! 😂)`;
+            }
+        }
+
+        // Create Floating Balloons
+        function createBalloons() {
+            const colors = ['🎈', '🎉', '🎊', '🎁', '🎀', '⭐'];
+            setInterval(() => {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.innerHTML = colors[Math.floor(Math.random() * colors.length)];
+                balloon.style.left = Math.random() * 100 + '%';
+                balloon.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                document.body.appendChild(balloon);
+                setTimeout(() => balloon.remove(), 6000);
+            }, 500);
+        }
+
+        // Create Confetti
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#ff9ff3', '#54a0ff'];
+            setInterval(() => {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                confetti.style.animationDelay = Math.random() + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 4000);
+            }, 100);
+        }
+    </script>
+</body>
+</html>
