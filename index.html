@@ -1,420 +1,1037 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎉 Happy Birthday Bhai! 🎂</title>
+    <title>🎉 Chirag લીટી Birthday! 🎂</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-confetti@2.12.0/tsparticles.confetti.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
-            background-size: 400% 400%;
-            animation: gradientShift 10s ease infinite;
-            overflow-x: hidden;
-            position: relative;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100vh;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .container {
-            text-align: center;
-            padding: 20px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        /* Intro Screen */
-        #introScreen {
+        /* Full Screen Container */
+        .screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
         }
 
-        .start-btn {
-            padding: 20px 40px;
-            font-size: 28px;
-            background: #ff6b6b;
+        .screen.active {
+            opacity: 1;
+            pointer-events: all;
+            z-index: 100;
+        }
+
+        /* Screen Backgrounds */
+        #screen1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        #screen2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        #screen3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        #screen4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        #screen5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        #screen6 { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+        #screen7 { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+        #screen8 { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        #screen9 { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+        #screen10 { background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%); }
+
+        .screen {
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Typography */
+        .title {
+            font-size: clamp(2rem, 8vw, 5rem);
+            color: #fff;
+            text-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            margin-bottom: 20px;
+            font-weight: 900;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            color: rgba(255,255,255,0.95);
+            text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .text {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: rgba(255,255,255,0.9);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            margin: 15px 0;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .name-highlight {
+            color: #ffd700;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(255,215,0,0.8), 0 0 40px rgba(255,215,0,0.6);
+            display: inline-block;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255,215,0,0.8), 0 0 40px rgba(255,215,0,0.6); }
+            50% { text-shadow: 0 0 30px rgba(255,215,0,1), 0 0 60px rgba(255,215,0,0.8); }
+        }
+
+        /* Buttons */
+        .btn {
+            padding: clamp(15px, 3vw, 25px) clamp(40px, 6vw, 70px);
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(10px);
             color: white;
-            border: none;
+            border: 3px solid rgba(255,255,255,0.5);
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            animation: pulse 1.5s infinite;
-            transition: transform 0.3s;
+            font-weight: 900;
+            text-transform: uppercase;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            margin: 10px;
         }
 
-        .start-btn:hover {
-            transform: scale(1.1) rotate(5deg);
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+            border-color: rgba(255,255,255,0.8);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 500px;
+            height: 500px;
+        }
+
+        /* Emoji Animations */
+        .emoji {
+            font-size: clamp(5rem, 15vw, 12rem);
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+            cursor: pointer;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* Countdown */
+        .countdown {
+            font-size: clamp(5rem, 20vw, 15rem);
+            color: #fff;
+            font-weight: 900;
+            text-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            animation: pulse 1s infinite;
         }
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.1); }
         }
 
-        /* Main Content */
-        #mainContent {
-            min-height: 100vh;
-            padding: 50px 20px;
+        /* FIXED: Candles Container with Grid Layout */
+        .candles-wrapper {
+            width: 100%;
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 0 15px;
         }
 
-        h1 {
-            font-size: 4rem;
-            color: #fff;
-            text-shadow: 4px 4px 8px rgba(0,0,0,0.5);
-            margin: 30px 0;
-            animation: bounce 2s infinite;
+        .candles-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            width: 100%;
+            justify-items: center;
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-30px); }
-            60% { transform: translateY(-15px); }
-        }
-
-        .funny-text {
-            font-size: 1.5rem;
-            color: #fff;
-            background: rgba(0,0,0,0.5);
-            padding: 20px;
-            border-radius: 20px;
-            margin: 20px auto;
-            max-width: 800px;
-            line-height: 1.8;
-        }
-
-        .cake-container {
-            margin: 50px auto;
+        .candle {
+            width: 100%;
+            max-width: 70px;
+            min-width: 45px;
+            height: 120px;
+            background: linear-gradient(to bottom, #ff6b6b, #ff8787);
+            border-radius: 12px 12px 4px 4px;
             position: relative;
-        }
-
-        .cake {
-            font-size: 150px;
-            animation: shake 0.5s infinite;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
 
-        .cake:hover {
-            transform: scale(1.2);
+        .candle:hover {
+            transform: scale(1.08);
+        }
+
+        .candle.blown {
+            background: linear-gradient(to bottom, #666, #999);
+        }
+
+        .flame {
+            width: 24px;
+            height: 36px;
+            background: radial-gradient(circle, #ffed00 0%, #ff9500 100%);
+            border-radius: 50% 50% 0 0;
+            position: absolute;
+            top: -28%;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flicker 0.2s infinite alternate;
+            box-shadow: 0 0 30px #ff9500, 0 0 50px rgba(255,149,0,0.5);
+        }
+
+        .candle.blown .flame {
+            display: none;
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scaleY(1); }
+            100% { transform: translateX(-50%) scaleY(1.15); }
+        }
+
+        /* Smoke Effect */
+        .smoke {
+            position: absolute;
+            top: -25%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 40px;
+            background: rgba(150,150,150,0.6);
+            border-radius: 50%;
+            opacity: 0;
+            filter: blur(3px);
+        }
+
+        .candle.blown .smoke {
+            animation: smokeRise 2s ease-out forwards;
+        }
+
+        @keyframes smokeRise {
+            0% {
+                opacity: 0.8;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-100px) scale(2);
+            }
+        }
+
+        /* Wish Popup */
+        .wish-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, rgba(255,107,107,0.95), rgba(255,202,87,0.95));
+            backdrop-filter: blur(20px);
+            padding: clamp(30px, 6vw, 60px);
+            border-radius: 30px;
+            border: 5px solid rgba(255,255,255,0.8);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            z-index: 1000;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .wish-popup.show {
+            animation: popupAppear 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        @keyframes popupAppear {
+            0% {
+                transform: translate(-50%, -50%) scale(0) rotate(-180deg);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .wish-popup h2 {
+            font-size: clamp(2rem, 6vw, 4rem);
+            color: #fff;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+
+        .wish-popup p {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: #fff;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            margin: 15px 0;
+            font-weight: 600;
+        }
+
+        /* Input */
+        .input {
+            padding: clamp(15px, 3vw, 20px);
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            border: 3px solid rgba(255,255,255,0.5);
+            border-radius: 20px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            margin: 20px auto;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .input::placeholder { color: rgba(255,255,255,0.7); }
+        .input:focus { outline: none; border-color: rgba(255,255,255,0.9); }
+
+        /* Result Box */
+        .result {
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            color: #fff;
+            font-weight: 900;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            margin: 25px 0;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 15px;
+        }
+
+        /* Card */
+        .card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 30px;
+            padding: clamp(20px, 4vw, 40px);
+            margin: 20px auto;
+            max-width: 90%;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+
+        /* Video Container */
+        .video-box {
+            width: 90%;
+            max-width: 700px;
+            aspect-ratio: 16/9;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+            margin: 20px auto;
+        }
+
+        .video-box iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Game Grid */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(10px, 2vw, 20px);
+            max-width: 400px;
+            width: 90%;
+            margin: 30px auto;
+        }
+
+        .game-box {
+            aspect-ratio: 1;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255,255,255,0.4);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(2rem, 6vw, 4rem);
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .game-box:hover {
+            transform: scale(1.05);
+            border-color: rgba(255,255,255,0.8);
+        }
+
+        .game-box.revealed {
+            background: rgba(255,255,255,0.4);
+        }
+
+        /* Music Player */
+        .music-player {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .music-btn {
+            width: clamp(70px, 12vw, 100px);
+            height: clamp(70px, 12vw, 100px);
+            border-radius: 50%;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255,255,255,0.5);
+            color: white;
+            font-size: clamp(2rem, 5vw, 3rem);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            border-color: rgba(255,255,255,0.8);
+        }
+
+        /* Gift Box */
+        .gift {
+            font-size: clamp(8rem, 20vw, 15rem);
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.3s;
+            filter: drop-shadow(0 15px 40px rgba(0,0,0,0.4));
+            animation: shake 2s infinite;
         }
 
         @keyframes shake {
             0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-5deg); }
-            75% { transform: rotate(5deg); }
+            10%, 30%, 50%, 70%, 90% { transform: rotate(-5deg); }
+            20%, 40%, 60%, 80% { transform: rotate(5deg); }
         }
 
-        .video-container {
-            margin: 40px auto;
-            max-width: 600px;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        /* Progress Bar */
+        .progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 2px 10px rgba(255,255,255,0.5);
+            z-index: 1000;
+            transition: width 0.5s;
         }
 
-        video {
-            width: 100%;
-            height: auto;
-        }
-
-        .meme-img {
-            max-width: 400px;
-            border-radius: 20px;
-            margin: 20px;
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: clamp(15px, 3vw, 20px) clamp(30px, 5vw, 40px);
+            border-radius: 50px;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-weight: 600;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            animation: rotate 3s infinite;
+            z-index: 1001;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            max-width: 90%;
+            text-align: center;
         }
 
-        @keyframes rotate {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(5deg); }
+        .notification.show {
+            opacity: 1;
         }
 
-        .balloon {
-            position: fixed;
-            bottom: -100px;
-            font-size: 50px;
-            animation: floatUp 6s ease-in infinite;
-            z-index: 5;
-        }
-
-        @keyframes floatUp {
-            0% {
-                bottom: -100px;
-                opacity: 1;
+        /* Mobile Responsive for Candles */
+        @media (max-width: 600px) {
+            .candles-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
             }
-            100% {
-                bottom: 120vh;
-                opacity: 0;
+            
+            .candle {
+                height: 100px;
             }
         }
 
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: #f00;
-            position: fixed;
-            top: -10px;
-            z-index: 1;
-            animation: fall 4s linear infinite;
-        }
-
-        @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
+        @media (min-width: 601px) and (max-width: 900px) {
+            .candles-grid {
+                gap: 12px;
             }
-        }
-
-        .funny-btn {
-            padding: 15px 30px;
-            font-size: 20px;
-            margin: 10px;
-            background: #f9ca24;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: all 0.3s;
-        }
-
-        .funny-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-        }
-
-        .age-calculator {
-            background: rgba(255,255,255,0.9);
-            padding: 30px;
-            border-radius: 20px;
-            margin: 30px auto;
-            max-width: 500px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        }
-
-        .age-result {
-            font-size: 2rem;
-            color: #ff6b6b;
-            margin: 20px 0;
-            font-weight: bold;
-        }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .funny-text { font-size: 1.2rem; }
-            .cake { font-size: 100px; }
         }
     </style>
 </head>
 <body>
-    <!-- Intro Screen -->
-    <div id="introScreen">
-        <h1 style="animation: none;">🎂 Are You Ready? 🎂</h1>
-        <p style="font-size: 24px; color: white; margin: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
-            Ek bahut hi khaas surprise hai tere liye!
-        </p>
-        <button class="start-btn" onclick="startCelebration()">🎉 Let's Party! 🎉</button>
+    <!-- Progress Bar -->
+    <div class="progress" id="progressBar"></div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Wish Popup -->
+    <div class="wish-popup" id="wishPopup">
+        <h2>🎉 WISH PURI HOGI! 🎂</h2>
+        <p>Teri saari khwaishein puri hon <span class="name-highlight">Chirag લીટી</span>!</p>
+        <p>🌟 Khush reh hamesha! 🌟</p>
+        <p>💖 Happy Birthday! 💖</p>
     </div>
 
-    <!-- Main Content -->
-    <div id="mainContent" class="hidden">
-        <div class="container">
-            <h1>🎉 HAPPY BIRTHDAY YAAR! 🎂</h1>
-            
-            <div class="funny-text">
-                <p>🎈 Arre bhai! Finally tu bhi ek saal aur budha ho gaya! 😂</p>
-                <p>🎂 Par tension mat le, abhi bhi bachpana intact hai tera! 😜</p>
-                <p>🎊 Toh chal, aaj party hard kar aur sab bhool ja! 🕺</p>
-            </div>
+    <!-- Screen 1: Welcome -->
+    <div class="screen active" id="screen1">
+        <div class="emoji">🎂</div>
+        <h1 class="title">HAPPY BIRTHDAY<br><span class="name-highlight">Chirag લીટી!</span></h1>
+        <p class="subtitle">Tere liye ek special surprise journey! 🎉</p>
+        <button class="btn" onclick="nextScreen(2)">
+            <span style="position: relative; z-index: 2;">SHURU KARO! 🚀</span>
+        </button>
+    </div>
 
-            <div class="cake-container">
-                <div class="cake" onclick="blowCandles()">🎂</div>
-                <p style="color: white; font-size: 20px;">↑ Cake pe click kar aur mombatti phuk! 🕯️</p>
-            </div>
+    <!-- Screen 2: Intro -->
+    <div class="screen" id="screen2">
+        <h1 class="title">HEY <span class="name-highlight">CHIRAG લીટી</span>! 🎊</h1>
+        <div class="card">
+            <p class="text">Aaj tera special din hai <span class="name-highlight">Chirag લીટી</span>! 🎈</p>
+            <p class="text">Maine tere liye ek poora experience banaya hai! 🎁</p>
+            <p class="text">Har screen pe kuch naya aur mazedaar hai! 😄</p>
+            <p class="text">Ready ho ja <span class="name-highlight">Chirag લીટી</span>... ye journey awesome hone wali hai! 🔥</p>
+        </div>
+        <button class="btn" onclick="nextScreen(3)">
+            <span style="position: relative; z-index: 2;">READY HU! ➡️</span>
+        </button>
+    </div>
 
-            <!-- Age Calculator (Funny) -->
-            <div class="age-calculator">
-                <h2>⏰ Tu Kitna Budha Ho Gaya? 😅</h2>
-                <p>Apna birthday year daal:</p>
-                <input type="number" id="birthYear" placeholder="Jaise: 1998" 
-                       style="padding: 10px; font-size: 18px; border-radius: 10px; border: 2px solid #ff6b6b; margin: 10px;">
-                <button class="funny-btn" onclick="calculateAge()">Calculate Kar! 📊</button>
-                <div id="ageResult" class="age-result"></div>
-            </div>
+    <!-- Screen 3: Countdown -->
+    <div class="screen" id="screen3">
+        <h1 class="title">COUNTDOWN START<br><span class="name-highlight">CHIRAG લીટી</span>! ⏰</h1>
+        <div class="countdown" id="countdownNumber">3</div>
+        <p class="subtitle">Tayar reh... kuch dhamakedar aane wala hai! 🎆</p>
+    </div>
 
-            <!-- Funny Buttons -->
-            <div style="margin: 40px 0;">
-                <button class="funny-btn" onclick="playBirthdaySong()">🎵 Birthday Song Suna! 🎶</button>
-                <button class="funny-btn" onclick="showFunnyVideo()">😂 Funny Video Dekh! 🎬</button>
-                <button class="funny-btn" onclick="makeItRain()">💸 Paisa Barsa De! 💰</button>
-            </div>
-
-            <!-- Audio Player (Hidden Initially) -->
-            <audio id="birthdaySong" loop>
-                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-            </audio>
-
-            <!-- Video Container -->
-            <div id="videoContainer" class="video-container hidden">
-                <iframe width="100%" height="315" 
-                        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                </iframe>
-                <p style="color: white; padding: 10px; background: rgba(0,0,0,0.7);">
-                    😂 Surprise! Rick Roll ho gaya tu! 🎉
-                </p>
-            </div>
-
-            <!-- Funny Memes -->
-            <div style="margin: 50px 0;">
-                <h2 style="color: white;">📸 Birthday Memes Special! 😆</h2>
-                <p style="color: white; font-size: 18px;">Ye dekh aur has!</p>
-            </div>
-
-            <!-- Final Message -->
-            <div class="funny-text" style="margin-top: 50px;">
-                <h2>💖 Dil Se Bhai! 💖</h2>
-                <p>Mazak to chalti rahegi, par sach me...</p>
-                <p>🎈 Tu meri zindagi ka sabse mast dost hai! 🎈</p>
-                <p>🎂 Bahut saare khushi aur success mile tujhe! 🎂</p>
-                <p>🎊 Aur haan... Party tu de raha hai! 😎🍕🍰</p>
-                <p><strong>HAPPY BIRTHDAY! 🎉🎉🎉</strong></p>
-            </div>
+    <!-- Screen 4: Blow Candles -->
+    <div class="screen" id="screen4">
+        <h1 class="title"><span class="name-highlight">CHIRAG લીટી</span><br>MOMBATTI PHUK! 🕯️</h1>
+        <div class="emoji">🎂</div>
+        <p class="subtitle" id="candleMsg">Sabhi 6 mombattiyon pe click karke phuk!</p>
+        <div class="candles-wrapper">
+            <div class="candles-grid" id="candlesContainer"></div>
         </div>
     </div>
 
+    <!-- Remaining screens same as before... -->
+    <!-- Screen 5: Age Quiz -->
+    <div class="screen" id="screen5">
+        <h1 class="title"><span class="name-highlight">CHIRAG લીટી</span><br>KITNA BUDHA? 😂</h1>
+        <p class="subtitle">Apna birth year bata de! 👇</p>
+        <input type="number" class="input" id="birthYear" placeholder="Jaise: 1998">
+        <button class="btn" onclick="calculateAge()">
+            <span style="position: relative; z-index: 2;">CALCULATE KAR! 📊</span>
+        </button>
+        <div class="result" id="ageResult"></div>
+    </div>
+
+    <!-- Screen 6: Music -->
+    <div class="screen" id="screen6">
+        <h1 class="title"><span class="name-highlight">CHIRAG લીટી</span><br>DJ TIME! 🎵</h1>
+        <div class="emoji" onclick="toggleMusic()">🎧</div>
+        <p class="subtitle">Birthday beats chala de! 🎶</p>
+        <div class="music-player">
+            <button class="music-btn" onclick="toggleMusic()">
+                <i class="fas fa-play" id="musicIcon"></i>
+            </button>
+        </div>
+        <audio id="bgMusic" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
+        <button class="btn" onclick="nextScreen(7)" style="margin-top: 30px;">
+            <span style="position: relative; z-index: 2;">NEXT! 🎮</span>
+        </button>
+    </div>
+
+    <!-- Screen 7: Memory Game -->
+    <div class="screen" id="screen7">
+        <h1 class="title"><span class="name-highlight">CHIRAG લીટી</span><br>MEMORY GAME! 🎮</h1>
+        <p class="subtitle" id="gameMsg">Emoji dhundo aur match karo! 🧩</p>
+        <div class="game-grid" id="gameGrid"></div>
+    </div>
+
+    <!-- Screen 8: Gift -->
+    <div class="screen" id="screen8">
+        <h1 class="title"><span class="name-highlight">CHIRAG લીટી</span><br>SURPRISE GIFT! 🎁</h1>
+        <p class="subtitle">Gift pe click kar! 👇</p>
+        <div class="gift" onclick="openGift()">🎁</div>
+    </div>
+
+    <!-- Screen 9: Video -->
+    <div class="screen" id="screen9">
+        <h1 class="title"><span class="name-highlight">CHIRAG લીટી</span><br>SPECIAL VIDEO! 🎬</h1>
+        <p class="subtitle">Dekh kya hai special! 😂</p>
+        <div class="video-box">
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" allowfullscreen></iframe>
+        </div>
+        <p class="text" style="margin-top: 20px;">😂 RICK ROLLED! Birthday prank complete! 🎉</p>
+        <button class="btn" onclick="nextScreen(10)">
+            <span style="position: relative; z-index: 2;">FINAL SURPRISE! 💖</span>
+        </button>
+    </div>
+
+    <!-- Screen 10: Final Message -->
+    <div class="screen" id="screen10">
+        <h1 class="title">💖 DIL SE<br><span class="name-highlight">CHIRAG લીટી</span>! 💖</h1>
+        <div class="card">
+            <p class="text">Mazak to bahut ho gaya <span class="name-highlight">Chirag લીટી</span>... 😄</p>
+            <p class="text">Ab sachchi baat... ❤️</p>
+            <p class="text">Tu mere liye bahut special hai! 🎈</p>
+            <p class="text">Zindagi me sabkuch best mile tujhe <span class="name-highlight">Chirag લીટી</span>! ⭐</p>
+            <p class="text">Health, wealth aur khushiyaan! 🎊</p>
+            <p class="text">Aur haan <span class="name-highlight">Chirag લીટી</span>... PARTY TU DE RAHA HAI! 🍕🍰</p>
+            <p class="text" style="font-size: clamp(1.5rem, 5vw, 2.5rem); margin-top: 30px;">
+                <strong>🎉 HAPPY BIRTHDAY <span class="name-highlight">CHIRAG લીટી</span>! 🎂</strong>
+            </p>
+        </div>
+        <button class="btn" onclick="restartExperience()">
+            <span style="position: relative; z-index: 2;">PHIR SE DEKHU! 🔄</span>
+        </button>
+    </div>
+
     <script>
-        // Start Celebration
-        function startCelebration() {
-            document.getElementById('introScreen').classList.add('hidden');
-            document.getElementById('mainContent').classList.remove('hidden');
-            createBalloons();
-            createConfetti();
+        let currentScreen = 1;
+        const totalScreens = 10;
+        let musicPlaying = false;
+        let candlesBlown = 0;
+        const totalCandles = 6;
+        
+        const gameEmojis = ['🎂', '🎁', '🎈', '🎉', '🎊', '🎀'];
+        let gameCards = [...gameEmojis, ...gameEmojis];
+        let flippedCards = [];
+        let matchedPairs = 0;
+
+        function updateProgress() {
+            const progress = (currentScreen / totalScreens) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
         }
 
-        // Blow Candles Effect
-        function blowCandles() {
-            const cake = document.querySelector('.cake');
-            cake.innerHTML = '🎁';
+        function nextScreen(screenNum) {
+            const current = document.getElementById(`screen${currentScreen}`);
+            const next = document.getElementById(`screen${screenNum}`);
+            
+            gsap.to(current, {
+                opacity: 0,
+                scale: 0.8,
+                duration: 0.5,
+                onComplete: () => {
+                    current.classList.remove('active');
+                    next.classList.add('active');
+                    gsap.from(next, {
+                        opacity: 0,
+                        scale: 1.2,
+                        duration: 0.5
+                    });
+                    
+                    currentScreen = screenNum;
+                    updateProgress();
+                    
+                    if(screenNum === 3) startCountdown();
+                    if(screenNum === 4) initCandles();
+                    if(screenNum === 7) initGame();
+                    
+                    confetti({
+                        particleCount: 50,
+                        spread: 70,
+                        origin: { y: 0.6 }
+                    });
+                }
+            });
+        }
+
+        function startCountdown() {
+            let count = 3;
+            const countdownEl = document.getElementById('countdownNumber');
+            
+            const interval = setInterval(() => {
+                count--;
+                if(count > 0) {
+                    countdownEl.textContent = count;
+                    confetti({
+                        particleCount: 30,
+                        spread: 60,
+                        origin: { y: 0.7 }
+                    });
+                } else {
+                    clearInterval(interval);
+                    countdownEl.textContent = 'GO! 🎉';
+                    megaConfetti();
+                    setTimeout(() => nextScreen(4), 2000);
+                }
+            }, 1000);
+        }
+
+        function initCandles() {
+            const container = document.getElementById('candlesContainer');
+            container.innerHTML = '';
+            candlesBlown = 0;
+            
+            for(let i = 0; i < totalCandles; i++) {
+                const candle = document.createElement('div');
+                candle.className = 'candle';
+                candle.innerHTML = '<div class="flame"></div><div class="smoke"></div>';
+                candle.onclick = () => blowCandle(candle);
+                container.appendChild(candle);
+                
+                gsap.from(candle, {
+                    y: 100,
+                    opacity: 0,
+                    duration: 0.5,
+                    delay: i * 0.1,
+                    ease: "bounce.out"
+                });
+            }
+        }
+
+        function blowCandle(candle) {
+            if(!candle.classList.contains('blown')) {
+                candle.classList.add('blown');
+                candlesBlown++;
+                
+                gsap.to(candle, {
+                    scale: 0.95,
+                    duration: 0.2,
+                    yoyo: true,
+                    repeat: 1
+                });
+                
+                confetti({
+                    particleCount: 20,
+                    spread: 50,
+                    origin: { y: 0.7 }
+                });
+                
+                if(candlesBlown === totalCandles) {
+                    setTimeout(() => {
+                        document.getElementById('candleMsg').innerHTML = 
+                            '🎉 Perfect <span class="name-highlight">Chirag લીટી</span>! 🎂';
+                        
+                        showWishPopup();
+                        megaConfetti();
+                        celebrationFireworks();
+                        showNotification('🎉 Chirag લીટી ne sab mombatti phuk di! 🎂');
+                        
+                        setTimeout(() => nextScreen(5), 4500);
+                    }, 500);
+                } else {
+                    document.getElementById('candleMsg').textContent = 
+                        `${totalCandles - candlesBlown} mombatti baki hai Chirag લીટી! 🕯️`;
+                }
+            }
+        }
+
+        function showWishPopup() {
+            const popup = document.getElementById('wishPopup');
+            popup.classList.add('show');
+            
             setTimeout(() => {
-                alert('🎉 Wish Puri Hogi Teri! Bas mere saath party zaroor karna! 😄');
-                cake.innerHTML = '🎂';
-            }, 2000);
+                gsap.to(popup, {
+                    scale: 0,
+                    rotation: 180,
+                    opacity: 0,
+                    duration: 0.6,
+                    onComplete: () => {
+                        popup.classList.remove('show');
+                        popup.style.transform = 'translate(-50%, -50%) scale(0)';
+                        popup.style.opacity = '1';
+                    }
+                });
+            }, 3500);
         }
 
-        // Play Birthday Song
-        function playBirthdaySong() {
-            const audio = document.getElementById('birthdaySong');
-            if (audio.paused) {
-                audio.play();
-                alert('🎵 Birthday song shuru! Ab naach! 🕺💃');
-            } else {
-                audio.pause();
-                alert('🛑 Song band kar diya! Itna bhi boring mat ban! 😂');
+        function celebrationFireworks() {
+            const duration = 3000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 999 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
             }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                
+                confetti(Object.assign({}, defaults, {
+                    particleCount,
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+                }));
+                confetti(Object.assign({}, defaults, {
+                    particleCount,
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+                }));
+            }, 250);
         }
 
-        // Show Funny Video (Rick Roll)
-        function showFunnyVideo() {
-            const videoContainer = document.getElementById('videoContainer');
-            videoContainer.classList.remove('hidden');
-            videoContainer.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Money Rain Effect
-        function makeItRain() {
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    createMoneyEmoji();
-                }, i * 100);
-            }
-            alert('💰 Paisa to barsa diya... ab asli wala tu de! 😂💸');
-        }
-
-        function createMoneyEmoji() {
-            const money = document.createElement('div');
-            money.innerHTML = '💵';
-            money.style.position = 'fixed';
-            money.style.left = Math.random() * 100 + '%';
-            money.style.top = '-50px';
-            money.style.fontSize = '40px';
-            money.style.zIndex = '1000';
-            money.style.animation = 'fall 3s linear';
-            document.body.appendChild(money);
-            setTimeout(() => money.remove(), 3000);
-        }
-
-        // Calculate Age (Funny Way)
         function calculateAge() {
             const birthYear = document.getElementById('birthYear').value;
             const currentYear = new Date().getFullYear();
             const age = currentYear - birthYear;
-            
             const resultDiv = document.getElementById('ageResult');
             
             if (!birthYear) {
-                resultDiv.innerHTML = '😅 Bhai year to daal pehle!';
-            } else if (age < 0) {
-                resultDiv.innerHTML = '🤔 Future se aaya hai kya?';
+                resultDiv.innerHTML = '😅 Year daal pehle Chirag લીટી!';
+                return;
+            }
+            
+            let message = '';
+            if (age < 0) {
+                message = '🤔 Time traveler hai kya Chirag લીટી?';
+            } else if (age < 13) {
+                message = `👶 ${age} saal! Bachcha hai Chirag લીટી!`;
             } else if (age < 18) {
-                resultDiv.innerHTML = `🎈 ${age} saal! Abhi bachcha hai tu! 👶`;
+                message = `🎮 ${age} saal! Teen power Chirag લીટી! 🔥`;
             } else if (age < 25) {
-                resultDiv.innerHTML = `🎉 ${age} saal! Prime time hai bhai! 🔥`;
-            } else if (age < 40) {
-                resultDiv.innerHTML = `😎 ${age} saal! Experienced ho gaya! 👔`;
+                message = `🎉 ${age} saal! Prime time Chirag લીટી! 💪`;
+            } else if (age < 35) {
+                message = `😎 ${age} saal! Experienced Chirag લીટી! 👔`;
             } else {
-                resultDiv.innerHTML = `🎂 ${age} saal! Uncle ji! 👴 (Mazak hai bhai! 😂)`;
+                message = `🎂 ${age} saal! Legend Chirag લીટી! 👑`;
+            }
+            
+            resultDiv.innerHTML = message;
+            gsap.from(resultDiv, {
+                scale: 0,
+                rotation: 360,
+                duration: 0.8,
+                ease: "back.out"
+            });
+            
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+            
+            showNotification('🎊 Perfect Chirag લીટી! Next level pe chalte hain! 🚀');
+            setTimeout(() => nextScreen(6), 3000);
+        }
+
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const icon = document.getElementById('musicIcon');
+            
+            if(musicPlaying) {
+                music.pause();
+                icon.className = 'fas fa-play';
+                musicPlaying = false;
+                showNotification('⏸️ Music paused Chirag લીટી!');
+            } else {
+                music.play();
+                icon.className = 'fas fa-pause';
+                musicPlaying = true;
+                showNotification('🎵 Party music playing Chirag લીટી! 🎶');
+                confetti({
+                    particleCount: 50,
+                    spread: 60,
+                    origin: { y: 0.7 }
+                });
             }
         }
 
-        // Create Floating Balloons
-        function createBalloons() {
-            const colors = ['🎈', '🎉', '🎊', '🎁', '🎀', '⭐'];
-            setInterval(() => {
-                const balloon = document.createElement('div');
-                balloon.className = 'balloon';
-                balloon.innerHTML = colors[Math.floor(Math.random() * colors.length)];
-                balloon.style.left = Math.random() * 100 + '%';
-                balloon.style.animationDuration = (Math.random() * 3 + 4) + 's';
-                document.body.appendChild(balloon);
-                setTimeout(() => balloon.remove(), 6000);
-            }, 500);
+        function initGame() {
+            const grid = document.getElementById('gameGrid');
+            grid.innerHTML = '';
+            matchedPairs = 0;
+            flippedCards = [];
+            
+            gameCards.sort(() => Math.random() - 0.5);
+            
+            gameCards.forEach((emoji, index) => {
+                const box = document.createElement('div');
+                box.className = 'game-box';
+                box.innerHTML = '❓';
+                box.dataset.emoji = emoji;
+                box.dataset.index = index;
+                box.onclick = () => flipCard(box);
+                grid.appendChild(box);
+                
+                gsap.from(box, {
+                    scale: 0,
+                    rotation: 360,
+                    duration: 0.5,
+                    delay: index * 0.05,
+                    ease: "back.out"
+                });
+            });
         }
 
-        // Create Confetti
-        function createConfetti() {
-            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#ff9ff3', '#54a0ff'];
-            setInterval(() => {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                confetti.style.animationDelay = Math.random() + 's';
-                document.body.appendChild(confetti);
-                setTimeout(() => confetti.remove(), 4000);
-            }, 100);
+        function flipCard(box) {
+            if(flippedCards.length < 2 && !box.classList.contains('revealed')) {
+                box.innerHTML = box.dataset.emoji;
+                box.classList.add('revealed');
+                flippedCards.push(box);
+                
+                gsap.to(box, {
+                    rotateY: 360,
+                    duration: 0.5
+                });
+                
+                if(flippedCards.length === 2) {
+                    setTimeout(checkMatch, 800);
+                }
+            }
         }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            
+            if(card1.dataset.emoji === card2.dataset.emoji) {
+                matchedPairs++;
+                confetti({
+                    particleCount: 30,
+                    spread: 50,
+                    origin: { y: 0.7 }
+                });
+                
+                if(matchedPairs === gameEmojis.length) {
+                    setTimeout(() => {
+                        document.getElementById('gameMsg').innerHTML = 
+                            '🎉 Genius <span class="name-highlight">Chirag લીટી</span>! Sab match kar liye! 🏆';
+                        megaConfetti();
+                        showNotification('🏆 Chirag લીટી champion hai! 🎮');
+                        setTimeout(() => nextScreen(8), 2500);
+                    }, 500);
+                }
+            } else {
+                card1.innerHTML = '❓';
+                card2.innerHTML = '❓';
+                card1.classList.remove('revealed');
+                card2.classList.remove('revealed');
+            }
+            
+            flippedCards = [];
+        }
+
+        function openGift() {
+            showNotification('🎁 Gift khul raha hai Chirag લીટી! 🎉');
+            gsap.to('.gift', {
+                scale: 2,
+                rotation: 720,
+                opacity: 0,
+                duration: 1,
+                ease: "power2.in",
+                onComplete: () => {
+                    megaConfetti();
+                    setTimeout(() => nextScreen(9), 1000);
+                }
+            });
+        }
+
+        function restartExperience() {
+            currentScreen = 1;
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById('screen1').classList.add('active');
+            updateProgress();
+            megaConfetti();
+            showNotification('🔄 Phir se shuru karte hain Chirag લીટી! 🎉');
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.innerHTML = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function megaConfetti() {
+            const count = 200;
+            const defaults = { origin: { y: 0.7 } };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        }
+
+        updateProgress();
     </script>
 </body>
 </html>
